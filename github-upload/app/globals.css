@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/*
+  NEXSHIELD design tokens.
+  Source: ui-ux-pro-max design system ("Trust & Authority": navy ground, protected-green action, accessible contrast,
+  no purple/pink gradients, credentials never hidden) + house rules: flat fields, no cards, no glass, no glows.
+*/
+:root {
+  --bg: #060b14;
+  --bg-2: #0b1322;
+  --ink: #e9eef5;
+  --muted: #9eabbf;
+  --line: #1b2740;
+  --signal: #3de0a0;       /* protected green: the one accent on dark */
+  --signal-ink: #04130d;
+  --threat: #ff5f6d;       /* only ever used for sample threat data */
+  --paper: #eef1f4;        /* the one light field */
+  --paper-ink: #060b14;
+  --paper-muted: #4a586d;
+  --paper-signal: #0a7a55; /* green for text on paper (4.5:1+) */
+  --margin: clamp(18px, 3vw, 44px);
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.25rem, 1.3rem + 3.6vw, 4.5rem);
+  --step-display: clamp(3rem, 1rem + 7vw, 8.25rem);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-signal: var(--signal);
+  --color-signal-ink: var(--signal-ink);
+  --color-threat: var(--threat);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
+  --color-paper-muted: var(--paper-muted);
+  --color-paper-signal: var(--paper-signal);
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+html { background: var(--bg); overflow-x: clip; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+::selection { background: var(--signal); color: var(--signal-ink); }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.on-paper :focus-visible { outline-color: var(--paper-ink); }
+
+button, a, [role="tab"], select { cursor: pointer; }
+
+.display { font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* skip link */
+.skip { position: absolute; left: 12px; top: -60px; z-index: 200; background: var(--signal); color: var(--signal-ink); padding: 12px 18px; font-weight: 700; }
+.skip:focus { top: 12px; }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee 70s linear infinite; will-change: transform; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.caret { animation: blink 1s steps(1) infinite; }
+
+@media (pointer: coarse) { .cursor { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .caret { animation: none; }
+}
